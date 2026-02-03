@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             align-items: center;
             height: 100vh;
         }
+
         .container {
             margin: 20px;
             background-color: #fff;
@@ -24,42 +26,76 @@
             flex-direction: column;
             align-items: center;
         }
+
         .form-group {
             margin: 10px;
         }
+
         .form-group label {
             display: inline-block;
             width: 100px;
         }
+
         .form-group input {
             display: inline-block;
             width: 200px;
         }
+
         .form-group button {
             margin: 10px;
         }
+
         #result {
             margin: 20px;
         }
+
         #result p {
             margin: 10px;
         }
+
+        .error {
+            border: 2px solid #e74c3c !important;
+            background-color: #ffe6e6;
+        }
+
+        .success {
+            border: 2px solid #27ae60 !important;
+            background-color: #e6ffe6;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .success-message {
+            color: #27ae60;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <form action="">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name">
+                <span class="error-message" id="name-error"></span>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email">
+                <span class="error-message" id="email-error"></span>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password">
+                <span class="error-message" id="password-error"></span>
             </div>
             <button type="submit">Submit</button>
         </form>
@@ -72,16 +108,112 @@
     </div>
 
     <script>
+        
         const form = document.querySelector('form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+
+        const nameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const passwordError = document.getElementById('password-error');
+
+        function validateName() {
+            const name = nameInput.value.trim();
+            if (name === '') {
+                showError(nameInput, nameError, 'Name is required');
+                return false;
+            } else if (name.length < 3) {
+                showError(nameInput, nameError, 'Name must be at least 3 characters');
+                return false;
+            } else {
+                showSuccess(nameInput, nameError, 'Valid name');
+                return true;
+            }
+        }
+
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (email === '') {
+                showError(emailInput, emailError, 'Email is required');
+                return false;
+            } else if (!emailRegex.test(email)) {
+                showError(emailInput, emailError, 'Please enter a valid email address');
+                return false;
+            } else {
+                showSuccess(emailInput, emailError, 'Valid email');
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const password = passwordInput.value;
+
+            if (password === '') {
+                showError(passwordInput, passwordError, 'Password is required');
+                return false;
+            } else if (password.length < 8) {
+                showError(passwordInput, passwordError, 'Password must be at least 8 characters');
+                return false;
+            } else if (!/[A-Z]/.test(password)) {
+                showError(passwordInput, passwordError, 'Password must contain at least one uppercase letter');
+                return false;
+            } else if (!/[a-z]/.test(password)) {
+                showError(passwordInput, passwordError, 'Password must contain at least one lowercase letter');
+                return false;
+            } else if (!/[0-9]/.test(password)) {
+                showError(passwordInput, passwordError, 'Password must contain at least one number');
+                return false;
+            } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                showError(passwordInput, passwordError, 'Password must contain at least one special character');
+                return false;
+            } else {
+                showSuccess(passwordInput, passwordError, 'Strong password');
+                return true;
+            }
+        }
+
+        function showError(input, errorElement, message) {
+            input.classList.remove('success');
+            input.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.classList.remove('success-message');
+            errorElement.classList.add('error-message');
+        }
+
+        function showSuccess(input, errorElement, message) {
+            input.classList.remove('error');
+            input.classList.add('success');
+            errorElement.textContent = message;
+            errorElement.classList.remove('error-message');
+            errorElement.classList.add('success-message');
+        }
+
+        nameInput.addEventListener('blur', validateName);
+        emailInput.addEventListener('blur', validateEmail);
+        passwordInput.addEventListener('blur', validatePassword);
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            let name = document.getElementById('name').value;
-            let email = document.getElementById('email').value;
-            let password = document.getElementById('password').value;
-            document.getElementById('result-name').textContent = "Name: " + name;
-            document.getElementById('result-email').textContent = "Email: " + email;
-            document.getElementById('result-password').textContent = "Password: " + password;
+
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+
+            if (isNameValid && isEmailValid && isPasswordValid) {
+                let name = nameInput.value;
+                let email = emailInput.value;
+                let password = passwordInput.value;
+
+                document.getElementById('result-name').textContent = "Name: " + name;
+                document.getElementById('result-email').textContent = "Email: " + email;
+                document.getElementById('result-password').textContent = "Password: " + password;
+            } else {
+                alert('Please fix all errors before submitting the form');
+            }
         });
     </script>
 </body>
+
 </html>
