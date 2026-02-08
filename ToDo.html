@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Todo list</h1>
+    <input type="text" id="item">
+    <button onclick="addItems()">add items</button>
+    <button onclick="removeItem()">remove item</button>
+    <button onclick="clearItems()">clear list</button>
+    <ul id="list"></ul>
+    <script>
+        const list = document.getElementById('list');
+
+        function loadItems() {
+            const items = JSON.parse(localStorage.getItem('todoList')) || [];
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                list.appendChild(li);
+            });
+        }
+
+        function saveToLocalStorage() {
+            const items = [];
+            const listItems = list.querySelectorAll('li');
+            listItems.forEach(li => {
+                items.push(li.textContent);
+            });
+            localStorage.setItem('todoList', JSON.stringify(items));
+        }
+
+        function addItems() {
+            const inputValue = document.getElementById('item').value.trim();
+            if (inputValue === '') {
+                alert('Please enter a todo item');
+                return;
+            }
+            const li = document.createElement('li');
+            li.textContent = inputValue;
+            list.appendChild(li);
+            saveToLocalStorage();
+            document.getElementById('item').value = '';
+        }
+
+        function removeItem() {
+            if (list.lastChild) {
+                list.removeChild(list.lastChild);
+                saveToLocalStorage();
+            }
+        }
+
+        function clearItems() {
+            localStorage.removeItem('todoList');
+            list.innerHTML = '';
+        }
+
+        loadItems();
+    </script>
+</body>
+
+</html>
