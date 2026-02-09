@@ -29,6 +29,11 @@ function addSubject(e) {
     subjectForm.reset();
     loadSubjects();
     updateStats();
+
+    // Reload schedule subject options
+    if (typeof loadSubjectOptions === 'function') {
+        loadSubjectOptions();
+    }
 }
 
 // Load and display all subjects

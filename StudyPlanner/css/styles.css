@@ -30,6 +30,51 @@ header h1 {
     margin-bottom: 10px;
 }
 
+/* Main Navigation */
+.main-nav {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    padding: 12px 30px;
+    text-decoration: none;
+    color: #666;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+.nav-link:hover {
+    background: #FDC3A1;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-link.active {
+    background: #F57799;
+    color: white;
+}
+
+/* Section Wrappers */
+.section-wrapper {
+    margin-bottom: 40px;
+    scroll-margin-top: 20px;
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
 /* Sections */
 section {
     background: white;
@@ -262,6 +307,184 @@ section h2 {
 
 .stat-card p {
     font-size: 1rem;
+}
+
+/* Schedule Planner */
+.schedule-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-view {
+    flex: 1;
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-view.active {
+    background: #F57799;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #FB9B8F;
+    color: white;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.schedule-display-section {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.schedule-view {
+    margin-top: 30px;
+}
+
+.empty-schedule {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+    font-size: 1.1rem;
+}
+
+/* Daily View */
+.daily-view h3 {
+    color: #F57799;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #FFF7CD;
+    border-radius: 8px;
+    border-left: 4px solid #F57799;
+}
+
+.schedule-time {
+    font-weight: 600;
+    color: #F57799;
+    min-width: 150px;
+}
+
+.schedule-subject {
+    flex: 1;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.btn-delete-schedule {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-schedule:hover {
+    background: #c0392b;
+}
+
+/* Weekly View */
+.weekly-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.day-column {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.day-column h4 {
+    color: #F57799;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1rem;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #F57799;
+}
+
+.day-schedules {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.no-schedule {
+    text-align: center;
+    color: #999;
+    font-size: 0.9rem;
+    padding: 20px 0;
+}
+
+.schedule-item-small {
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 3px solid #FB9B8F;
+    position: relative;
+}
+
+.time-small {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #F57799;
+    margin-bottom: 5px;
+}
+
+.subject-small {
+    font-size: 0.9rem;
+    color: #333;
+    padding-right: 25px;
+}
+
+.btn-delete-small {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.btn-delete-small:hover {
+    background: #c0392b;
 }
 
 /* Responsive */
