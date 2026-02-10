@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Study Planner</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="theme-toggle" onclick="ThemeManager.toggle()">🌙</button>
+
+        <header>
+            <h1>Study Planner</h1>
+        </header>
+
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="subjects.html" class="nav-link">Subject Management</a>
+            <a href="schedule.html" class="nav-link">Schedule Planner</a>
+            <a href="statistics.html" class="nav-link">Statistics</a>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section>
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3 id="dashTotalSubjects">0</h3>
+                    <p>Active Subjects</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 id="dashTotalHours">0</h3>
+                    <p>Hours/Week</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 id="dashUpcomingDeadlines">0</h3>
+                    <p>Upcoming Deadlines</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 id="dashTodaySchedule">0</h3>
+                    <p>Today's Classes</p>
+                </div>
+            </div>
+
+            <div class="dashboard-sections">
+                <div class="dashboard-section">
+                    <h3>Priority Subjects</h3>
+                    <div id="prioritySubjects" class="priority-list"></div>
+                </div>
+                <div class="dashboard-section">
+                    <h3>Today's Schedule</h3>
+                    <div id="todaySchedule" class="today-list"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

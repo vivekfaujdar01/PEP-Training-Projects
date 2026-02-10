@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - Study Planner</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Theme Toggle -->
+        <button id="themeToggle" class="theme-toggle" onclick="ThemeManager.toggle()">🌙</button>
+
+        <header>
+            <h1>Study Planner</h1>
+        </header>
+
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="subjects.html" class="nav-link">Subject Management</a>
+            <a href="schedule.html" class="nav-link">Schedule Planner</a>
+            <a href="statistics.html" class="nav-link active">Statistics</a>
+        </nav>
+
+        <!-- Statistics Section -->
+        <section>
+            <h2>Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="totalSubjects">0</h3>
+                    <p>Total Subjects</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalHours">0</h3>
+                    <p>Study Hours/Week</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="upcomingDeadlines">0</h3>
+                    <p>Upcoming Deadlines</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/storage.js"></script>
+    <script>
+        // Update statistics
+        function updateStats() {
+            const subjects = StorageManager.getAllSubjects();
+
+            document.getElementById('totalSubjects').textContent = subjects.length;
+
+            const totalHours = subjects.reduce((sum, s) => sum + parseInt(s.studyHours || 0), 0);
+            document.getElementById('totalHours').textContent = totalHours;
+
+            const upcoming = subjects.filter(s => {
+                const days = Math.ceil((new Date(s.deadline) - new Date()) / (1000 * 60 * 60 * 24));
+                return days >= 0 && days <= 7;
+            }).length;
+            document.getElementById('upcomingDeadlines').textContent = upcoming;
+        }
+
+        // Load stats on page load
+        document.addEventListener('DOMContentLoaded', updateStats);
+    </script>
+</body>
+
+</html>

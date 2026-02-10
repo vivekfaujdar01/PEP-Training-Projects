@@ -3,40 +3,33 @@ const subjectForm = document.getElementById('subjectForm');
 const subjectsList = document.getElementById('subjectsList');
 const clearAllBtn = document.getElementById('clearAllBtn');
 
+// Initialize the app
 init();
 
+// Initialize - Set up event listeners and load data
 function init() {
     loadSubjects();
     updateStats();
-
-    // Event listeners
     subjectForm.addEventListener('submit', addSubject);
     clearAllBtn.addEventListener('click', clearAll);
 }
 
-// Add new subject
+// Add a new subject from form data
 function addSubject(e) {
     e.preventDefault();
-
     const subject = {
         name: document.getElementById('subjectName').value,
         studyHours: document.getElementById('studyHours').value,
         deadline: document.getElementById('deadline').value,
         priority: document.getElementById('priority').value
     };
-
     StorageManager.addSubject(subject);
     subjectForm.reset();
     loadSubjects();
     updateStats();
-
-    // Reload schedule subject options
-    if (typeof loadSubjectOptions === 'function') {
-        loadSubjectOptions();
-    }
 }
 
-// Load and display all subjects
+// Load and display all subjects as cards
 function loadSubjects() {
     const subjects = StorageManager.getAllSubjects();
 
@@ -45,10 +38,10 @@ function loadSubjects() {
         return;
     }
 
-    // Sort by deadline
+    // Sort subjects by deadline (earliest first)
     subjects.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
-    // Display subjects
+    // Create HTML for each subject card
     subjectsList.innerHTML = subjects.map(subject => `
         <div class="subject-card priority-${subject.priority}">
             <div class="card-header">
@@ -72,7 +65,7 @@ function loadSubjects() {
     `).join('');
 }
 
-// Delete a subject
+// Delete a subject by ID with confirmation
 function deleteSubject(id) {
     if (confirm('Delete this subject?')) {
         StorageManager.deleteSubject(id);
@@ -81,7 +74,7 @@ function deleteSubject(id) {
     }
 }
 
-// Clear all subjects
+// Clear all subjects with confirmation
 function clearAll() {
     if (confirm('Delete all subjects?')) {
         StorageManager.clearAll();
@@ -90,23 +83,35 @@ function clearAll() {
     }
 }
 
-// Update statistics
+// Update statistics (total subjects, hours, upcoming deadlines)
 function updateStats() {
     const subjects = StorageManager.getAllSubjects();
+    const totalSubsElem = document.getElementById('totalSubjects');
+    const totalHrsElem = document.getElementById('totalHours');
+    const upcomingElem = document.getElementById('upcomingDeadlines');
 
-    document.getElementById('totalSubjects').textContent = subjects.length;
+    // Update total subjects count
+    if (totalSubsElem) {
+        totalSubsElem.textContent = subjects.length;
+    }
 
-    const totalHours = subjects.reduce((sum, s) => sum + parseInt(s.studyHours), 0);
-    document.getElementById('totalHours').textContent = totalHours;
+    // Calculate and update total study hours per week
+    if (totalHrsElem) {
+        const totalHours = subjects.reduce((sum, s) => sum + parseInt(s.studyHours || 0), 0);
+        totalHrsElem.textContent = totalHours;
+    }
 
-    const upcoming = subjects.filter(s => {
-        const days = Math.ceil((new Date(s.deadline) - new Date()) / (1000 * 60 * 60 * 24));
-        return days >= 0 && days <= 7;
-    }).length;
-    document.getElementById('upcomingDeadlines').textContent = upcoming;
+    // Count deadlines in the next 7 days
+    if (upcomingElem) {
+        const upcoming = subjects.filter(s => {
+            const days = Math.ceil((new Date(s.deadline) - new Date()) / (1000 * 60 * 60 * 24));
+            return days >= 0 && days <= 7;
+        }).length;
+        upcomingElem.textContent = upcoming;
+    }
 }
 
-// Format date for display
+// Format date string to readable format (e.g., "Jan 15, 2024")
 function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });

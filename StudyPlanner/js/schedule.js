@@ -1,9 +1,11 @@
-// Schedule Manager
+// Schedule Manager - Handles all schedule operations
 const ScheduleManager = {
+    // Get all schedules from localStorage
     getSchedules() {
         return JSON.parse(localStorage.getItem('schedules') || '[]');
     },
 
+    // Add a new schedule with auto-generated ID
     addSchedule(schedule) {
         const schedules = this.getSchedules();
         schedule.id = Date.now().toString();
@@ -12,11 +14,13 @@ const ScheduleManager = {
         return schedule;
     },
 
+    // Delete a schedule by ID
     deleteSchedule(id) {
         const schedules = this.getSchedules().filter(s => s.id !== id);
         localStorage.setItem('schedules', JSON.stringify(schedules));
     },
 
+    // Check if a new schedule conflicts with existing ones
     hasConflict(day, startTime, endTime) {
         return this.getSchedules().some(s => {
             if (s.day !== day) return false;
@@ -24,10 +28,12 @@ const ScheduleManager = {
             const newEnd = this.timeToMinutes(endTime);
             const existingStart = this.timeToMinutes(s.startTime);
             const existingEnd = this.timeToMinutes(s.endTime);
+            // Check if time ranges overlap
             return newStart < existingEnd && newEnd > existingStart;
         });
     },
 
+    // Convert time string (HH:MM) to minutes for comparison
     timeToMinutes(time) {
         const [hours, minutes] = time.split(':').map(Number);
         return hours * 60 + minutes;
@@ -36,45 +42,45 @@ const ScheduleManager = {
 
 // DOM Elements
 const scheduleForm = document.getElementById('scheduleForm');
-let currentView = 'daily';
+let currentView = 'daily'; // Track current view (daily or weekly)
 
-// Initialize
+// Initialize schedule page
 function initSchedule() {
     loadSubjectOptions();
     renderSchedule();
-
     scheduleForm.addEventListener('submit', addSchedule);
     document.getElementById('dailyViewBtn').addEventListener('click', () => switchView('daily'));
     document.getElementById('weeklyViewBtn').addEventListener('click', () => switchView('weekly'));
 }
 
-// Load subject options
+// Load available subjects into the dropdown
 function loadSubjectOptions() {
     const subjects = StorageManager.getAllSubjects();
     const scheduleSubject = document.getElementById('scheduleSubject');
-
     scheduleSubject.innerHTML = '<option value="">Select Subject</option>' +
         subjects.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
 }
 
-// Add schedule
+// Add a new schedule from form data
 function addSchedule(e) {
     e.preventDefault();
-
     const day = document.getElementById('scheduleDay').value;
     const start = document.getElementById('startTime').value;
     const end = document.getElementById('endTime').value;
 
+    // Validate that end time is after start time
     if (start >= end) {
         alert('End time must be after start time!');
         return;
     }
 
+    // Check for time conflicts
     if (ScheduleManager.hasConflict(day, start, end)) {
         alert('Time conflict detected! This slot overlaps with an existing schedule.');
         return;
     }
 
+    // Add the schedule
     ScheduleManager.addSchedule({
         subject: document.getElementById('scheduleSubject').value,
         day,
@@ -86,7 +92,7 @@ function addSchedule(e) {
     renderSchedule();
 }
 
-// Switch view
+// Switch between daily and weekly view
 function switchView(view) {
     currentView = view;
     document.getElementById('dailyViewBtn').classList.toggle('active', view === 'daily');
@@ -94,12 +100,12 @@ function switchView(view) {
     renderSchedule();
 }
 
-// Render schedule
+// Render the schedule based on current view
 function renderSchedule() {
     currentView === 'daily' ? renderDailyView() : renderWeeklyView();
 }
 
-// Render daily view
+// Render daily view (shows only today's schedule)
 function renderDailyView() {
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
     const todaySchedules = ScheduleManager.getSchedules()
@@ -122,7 +128,7 @@ function renderDailyView() {
         </div>`;
 }
 
-// Render weekly view
+// Render weekly view (shows all 7 days)
 function renderWeeklyView() {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     const schedules = ScheduleManager.getSchedules();
@@ -156,7 +162,7 @@ function renderWeeklyView() {
     `;
 }
 
-// Delete schedule
+// Delete a schedule with confirmation
 function deleteSchedule(id) {
     if (confirm('Delete this schedule?')) {
         ScheduleManager.deleteSchedule(id);
@@ -164,11 +170,11 @@ function deleteSchedule(id) {
     }
 }
 
-// Format time
+// Format 24-hour time to 12-hour format with AM/PM
 function formatTime(time) {
     const [hours, minutes] = time.split(':');
     const h = parseInt(hours);
-    const displayHour = h % 12 || 12;
+    const displayHour = h % 12 || 12; // Convert 0 to 12 for midnight
     return `${displayHour}:${minutes} ${h >= 12 ? 'PM' : 'AM'}`;
 }
 

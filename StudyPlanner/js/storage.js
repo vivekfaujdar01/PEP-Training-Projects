@@ -1,16 +1,17 @@
+// Storage Manager - Handles all localStorage operations for subjects
 const StorageManager = {
-    // Get all subjects from LocalStorage
+    // Get all subjects from localStorage
     getAllSubjects() {
         const data = localStorage.getItem('studyPlannerSubjects');
         return data ? JSON.parse(data) : [];
     },
 
-    // Save all subjects to LocalStorage
+    // Save subjects array to localStorage
     saveSubjects(subjects) {
         localStorage.setItem('studyPlannerSubjects', JSON.stringify(subjects));
     },
 
-    // Add a new subject
+    // Add a new subject with auto-generated ID
     addSubject(subject) {
         const subjects = this.getAllSubjects();
         subject.id = Date.now().toString();
@@ -18,14 +19,13 @@ const StorageManager = {
         this.saveSubjects(subjects);
     },
 
-    // Delete a subject by ID
+    // Delete a subject by its ID
     deleteSubject(id) {
-        const subjects = this.getAllSubjects();
-        const filtered = subjects.filter(s => s.id !== id);
-        this.saveSubjects(filtered);
+        const subjects = this.getAllSubjects().filter(s => s.id !== id);
+        this.saveSubjects(subjects);
     },
 
-    // Clear all subjects
+    // Clear all subjects from localStorage
     clearAll() {
         localStorage.removeItem('studyPlannerSubjects');
     }
