@@ -1,6 +1,4 @@
 // src/firebase.js
-// Firebase project config for Finance Tracker
-
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
