@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import TransactionList from "../components/TransactionList";
 import TransactionForm from "../components/TransactionForm";
 import { AlertTriangle, CreditCard, TrendingUp, TrendingDown, Plus } from "lucide-react";
+import SpendingCharts from "../components/SpendingCharts";
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
@@ -99,6 +100,11 @@ export default function Dashboard() {
               </span>
             </div>
           </div>
+        )}
+
+        {/* Spending Charts */}
+        {!loading && transactions.length > 0 && (
+          <SpendingCharts transactions={transactions} />
         )}
 
         {/* Transaction List */}
