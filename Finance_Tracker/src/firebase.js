@@ -8,14 +8,14 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBXWm2FMnxV0pC_zOpbRqOYLz7cmgA5EDE",
-    authDomain: "finance-tracker-5db21.firebaseapp.com",
-    databaseURL: "https://finance-tracker-5db21-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "finance-tracker-5db21",
-    storageBucket: "finance-tracker-5db21.firebasestorage.app",
-    messagingSenderId: "915657838753",
-    appId: "1:915657838753:web:3c0da698a4f1a6c20560e0",
-    measurementId: "G-QM1ZV5J6Z3"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID,
+    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
