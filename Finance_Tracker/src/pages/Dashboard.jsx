@@ -8,6 +8,7 @@ import TransactionList from "../components/TransactionList";
 import TransactionForm from "../components/TransactionForm";
 import { AlertTriangle, CreditCard, TrendingUp, TrendingDown, Plus } from "lucide-react";
 import SpendingCharts from "../components/SpendingCharts";
+import Footer from "../components/Footer";
 
 export default function Dashboard() {
   const { currentUser } = useAuth();
@@ -138,6 +139,8 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      <Footer />
     </div>
   );
 }
