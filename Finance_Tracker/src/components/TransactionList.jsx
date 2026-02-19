@@ -32,9 +32,9 @@ export default function TransactionList({ transactions }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Filters Bar */}
-      <div className="flex flex-wrap items-center gap-3 p-4 rounded-xl bg-white/80 dark:bg-[rgba(15,25,60,0.7)] border border-teal-100 dark:border-cyan-900/30 backdrop-blur-sm">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 p-4 rounded-xl bg-white/80 dark:bg-[rgba(15,25,60,0.7)] border border-teal-100 dark:border-cyan-900/30 backdrop-blur-sm">
         {/* Search */}
-        <div className="relative flex-1 min-w-[180px]">
+        <div className="relative flex-1 w-full sm:w-auto sm:min-w-[180px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-teal-400 dark:text-cyan-600" />
           <input
             className="w-full pl-9 pr-3 py-2 rounded-lg text-sm outline-none bg-teal-50 dark:bg-[rgba(10,20,50,0.8)] border border-teal-200 dark:border-cyan-800/50 text-slate-700 dark:text-cyan-100 placeholder:text-teal-400/60 dark:placeholder:text-cyan-700 focus:border-teal-400 dark:focus:border-cyan-400 transition-colors duration-200"
@@ -45,16 +45,16 @@ export default function TransactionList({ transactions }) {
         </div>
 
         {/* Selects */}
-        <div className="flex flex-wrap gap-2">
-          <select className={selectCls} value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2">
+          <select className={`${selectCls} w-full sm:w-auto`} value={filterType} onChange={(e) => setFilterType(e.target.value)}>
             <option value="all">All Types</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </select>
-          <select className={selectCls} value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+          <select className={`${selectCls} w-full sm:w-auto`} value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
             {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
-          <select className={selectCls} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <select className={`${selectCls} w-full sm:w-auto col-span-2 sm:col-span-1`} value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
             <option value="date-desc">Newest First</option>
             <option value="date-asc">Oldest First</option>
             <option value="amount-desc">Highest Amount</option>

@@ -48,7 +48,7 @@ export default function TransactionItem({ transaction }) {
   if (editing) {
     return (
       <div className="rounded-xl p-4 bg-white dark:bg-[rgba(15,25,60,0.8)] border border-teal-100 dark:border-cyan-900/30 backdrop-blur-sm">
-        <form onSubmit={handleUpdate} className="grid grid-cols-2 gap-2">
+        <form onSubmit={handleUpdate} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           <input className={compactInputCls} value={editForm.title} onChange={(e) => setEditForm((p) => ({ ...p, title: e.target.value }))} placeholder="Title" required />
           <input className={compactInputCls} type="number" value={editForm.amount} onChange={(e) => setEditForm((p) => ({ ...p, amount: e.target.value }))} placeholder="Amount" min="0.01" step="0.01" required />
           <select className={compactInputCls} value={editForm.type} onChange={(e) => setEditForm((p) => ({ ...p, type: e.target.value }))}>
@@ -82,15 +82,20 @@ export default function TransactionItem({ transaction }) {
   }
 
   return (
-    <div className={`flex items-center gap-4 px-6 py-5 rounded-xl bg-white/80 dark:bg-[rgba(15,25,60,0.7)] border border-teal-100 dark:border-cyan-900/30 border-l-4 ${borderColor} backdrop-blur-sm hover:bg-teal-50/80 dark:hover:bg-[rgba(20,35,75,0.85)] hover:translate-x-0.5 transition-all duration-200`}>
-      {/* Icon */}
-      <span className="w-10 flex items-center justify-center shrink-0">
-        {(() => { const Icon = CATEGORY_ICONS[category] || Package; return <Icon className="w-6 h-6 text-teal-500 dark:text-cyan-400" />; })()}
-      </span>
+    <div className={`flex flex-col sm:flex-row sm:items-center gap-4 px-4 sm:px-6 py-5 rounded-xl bg-white/80 dark:bg-[rgba(15,25,60,0.7)] border border-teal-100 dark:border-cyan-900/30 border-l-4 ${borderColor} backdrop-blur-sm hover:bg-teal-50/80 dark:hover:bg-[rgba(20,35,75,0.85)] hover:translate-x-0.5 transition-all duration-200`}>
+      {/* Icon + Title Group (Mobile) */}
+      <div className="flex items-center gap-4 w-full sm:w-auto">
+        <span className="w-10 flex items-center justify-center shrink-0">
+          {(() => { const Icon = CATEGORY_ICONS[category] || Package; return <Icon className="w-6 h-6 text-teal-500 dark:text-cyan-400" />; })()}
+        </span>
+        <div className="flex-1 min-w-0 sm:hidden">
+          <span className="text-lg font-semibold text-slate-800 dark:text-cyan-100 truncate block">{title}</span>
+        </div>
+      </div>
 
-      {/* Info */}
-      <div className="flex-1 flex flex-col gap-1 min-w-0">
-        <span className="text-lg font-semibold text-slate-800 dark:text-cyan-100 truncate">{title}</span>
+      {/* Info (Desktop) / Details (Mobile) */}
+      <div className="flex-1 flex flex-col gap-1 w-full min-w-0 pl-14 sm:pl-0 -mt-2 sm:mt-0">
+        <span className="hidden sm:block text-lg font-semibold text-slate-800 dark:text-cyan-100 truncate">{title}</span>
         <div className="flex flex-wrap gap-2 items-center">
           <span className="text-xs px-2.5 py-0.5 rounded-full bg-teal-50 dark:bg-cyan-900/30 border border-teal-200 dark:border-cyan-800/50 text-teal-600 dark:text-cyan-400">
             {category}
@@ -101,11 +106,11 @@ export default function TransactionItem({ transaction }) {
       </div>
 
       {/* Amount + Actions */}
-      <div className="flex flex-col items-end gap-2 shrink-0">
+      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center w-full sm:w-auto gap-2 pl-14 sm:pl-0">
         <span className={`text-lg font-bold ${isIncome ? "text-emerald-500 dark:text-emerald-400" : "text-rose-500 dark:text-rose-400"}`}>
           {isIncome ? "+" : "-"}₹{Number(amount).toLocaleString("en-IN", { minimumFractionDigits: 2 })}
         </span>
-        <div className="flex gap-1.5">
+        <div className="flex gap-1.5 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => setEditing(true)}
             title="Edit"

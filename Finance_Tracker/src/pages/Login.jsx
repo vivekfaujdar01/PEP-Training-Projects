@@ -31,7 +31,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#edfaf6] dark:bg-[#0a0f1e] transition-colors duration-300" style={{ backgroundImage: "radial-gradient(ellipse at 60% 20%, rgba(13,148,136,0.12) 0%, transparent 60%)" }}>
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-[#edfaf6] dark:bg-[#0a0f1e] transition-colors duration-300" style={{ backgroundImage: "radial-gradient(ellipse at 60% 20%, rgba(13,148,136,0.12) 0%, transparent 60%)" }}>
       <div className="w-full max-w-sm rounded-xl p-8 bg-white dark:bg-[#0d1530] border border-teal-100 dark:border-cyan-900/40 shadow-[0_4px_12px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_24px_rgba(0,0,0,0.5)] animate-slide-up">
         {/* Header */}
         <div className="text-center mb-7">

@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { Wallet, Sun, Moon } from "lucide-react";
+import { Wallet, Sun, Moon, LogOut } from "lucide-react";
 
 export default function Navbar() {
   const { currentUser, logout } = useAuth();
@@ -19,22 +19,22 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-6 bg-white/80 dark:bg-[#0d1530]/80 border-b border-teal-100 dark:border-cyan-900/40 backdrop-blur-md transition-colors duration-300">
+    <nav className="sticky top-0 z-50 flex items-center justify-between h-16 px-4 sm:px-6 bg-white/80 dark:bg-[#0d1530]/80 border-b border-teal-100 dark:border-cyan-900/40 backdrop-blur-md transition-colors duration-300">
       {/* Brand */}
-      <div className="flex items-center gap-2">
-        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-linear-to-br from-teal-400 to-cyan-500 dark:from-cyan-400 dark:to-sky-500">
+      <Link to="/" className="flex items-center gap-2 group">
+        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-linear-to-br from-teal-400 to-cyan-500 dark:from-cyan-400 dark:to-sky-500 shadow-sm group-hover:scale-105 transition-transform">
           <Wallet className="w-4 h-4 text-white" />
         </div>
-        <span className="text-lg font-bold tracking-tight bg-linear-to-r from-teal-500 to-cyan-400 dark:from-cyan-400 dark:to-sky-300 bg-clip-text text-transparent">
+        <span className="hidden sm:block text-lg font-bold tracking-tight bg-linear-to-r from-teal-500 to-cyan-400 dark:from-cyan-400 dark:to-sky-300 bg-clip-text text-transparent">
           FinanceTracker
         </span>
-      </div>
+      </Link>
 
       {/* Nav links */}
       <div className="flex gap-2">
         <Link
           to="/"
-          className="text-base font-medium px-3 py-1.5 rounded-lg text-teal-700 dark:text-cyan-300 hover:bg-teal-50 dark:hover:bg-cyan-900/30 transition-colors duration-200"
+          className="hidden sm:block text-base font-medium px-3 py-1.5 rounded-lg text-teal-700 dark:text-cyan-300 hover:bg-teal-50 dark:hover:bg-cyan-900/30 transition-colors duration-200"
         >
           Dashboard
         </Link>
@@ -59,17 +59,19 @@ export default function Navbar() {
               {currentUser.email.charAt(0).toUpperCase()}
             </div>
 
-            {/* Email */}
-            <span className="hidden sm:block text-sm max-w-[180px] truncate text-teal-600 dark:text-cyan-400/70">
+            {/* Email (Desktop only) */}
+            <span className="hidden md:block text-sm max-w-[180px] truncate text-teal-600 dark:text-cyan-400/70">
               {currentUser.email}
             </span>
 
             {/* Logout */}
             <button
               onClick={handleLogout}
-              className="text-sm px-3 py-1.5 rounded-lg border border-teal-200 dark:border-cyan-800 text-teal-600 dark:text-cyan-400 hover:border-rose-400 hover:text-rose-500 dark:hover:border-rose-500 dark:hover:text-rose-400 transition-all duration-200 cursor-pointer"
+              title="Logout"
+              className="group flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-teal-200 dark:border-cyan-800 text-teal-600 dark:text-cyan-400 hover:border-rose-400 hover:text-rose-500 dark:hover:border-rose-500 dark:hover:text-rose-400 transition-all duration-200 cursor-pointer"
             >
-              Logout
+              <LogOut className="w-4 h-4 sm:hidden group-hover:scale-110 transition-transform" />
+              <span className="hidden sm:inline text-sm font-medium">Logout</span>
             </button>
           </>
         )}
