@@ -82,7 +82,7 @@ export default function TransactionItem({ transaction }) {
   }
 
   return (
-    <div className={`flex flex-col sm:flex-row sm:items-center gap-4 px-4 sm:px-6 py-5 rounded-xl bg-white/80 dark:bg-[rgba(15,25,60,0.7)] border border-teal-100 dark:border-cyan-900/30 border-l-4 ${borderColor} backdrop-blur-sm hover:bg-teal-50/80 dark:hover:bg-[rgba(20,35,75,0.85)] hover:translate-x-0.5 transition-all duration-200`}>
+    <div className={`group flex flex-col sm:flex-row sm:items-center gap-4 px-4 sm:px-6 py-5 rounded-xl bg-white/80 dark:bg-[rgba(15,25,60,0.7)] border border-teal-100 dark:border-cyan-900/30 border-l-4 ${borderColor} backdrop-blur-sm hover:bg-teal-50/80 dark:hover:bg-[rgba(20,35,75,0.85)] hover:translate-x-0.5 transition-all duration-200`}>
       {/* Icon + Title Group (Mobile) */}
       <div className="flex items-center gap-4 w-full sm:w-auto">
         <span className="w-10 flex items-center justify-center shrink-0">
